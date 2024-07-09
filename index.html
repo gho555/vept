@@ -398,22 +398,6 @@
         </div>
       </div>
 
-      <div id="myModalPoint" class="modal">
-        <!-- Modal content -->
-        <div class="modal-content">
-          <span class="close">&times;</span>
-          <p>Please enter the name of the point.</p>
-          <label for="lname">Point ID: </label>
-          <input type="text" id="new-button-text-point" /><br /><br />
-          <input
-            class="button-30"
-            type="submit"
-            value="Create point button"
-            onclick="submitButtonPoint()"
-          />
-        </div>
-      </div>
-
       <div id="demo-controls">
         <audio id="audio" class="audio" controls="controls">
           <source src="" type="audio/mpeg" />
@@ -422,8 +406,8 @@
       </div>
       <div class="sidenav">
         <div id="controls">
-          <label class="button-30" for="point-label">Label</label>
-          <select name="point-label" id="point-label">
+          <label class="button-30" for="label1">Label</label>
+          <select name="label1" id="label1">
             <option value="Suspect escalation">Suspect escalation</option>
             <option value="Officer escalation">Officer escalation</option>
             <option value="Suspect deescalation">Suspect deescalation</option>
@@ -433,16 +417,14 @@
             <option value="Arrest made">Arrest made</option>
           </select>
           <br />
-          <button
-            class="button-30 topbutton"
-            id="add-button"
-            onclick="submitButtonPoint(true)"
-          >
-            Add Point
+          <button class="button-30 topbutton" onclick="submitPoint(true)">
+            Add point
           </button>
           <controlDivider></controlDivider>
-          <button class="button-30 topbutton" onclick="addButtonPoint()">
-            Add point buttons
+          <label class="button-30" for="label2">Label</label>
+          <input type="text" id="label2" value="" />
+          <button class="button-30 topbutton" onclick="submitPoint(false)">
+            Add point manually
           </button>
           <div id="point-buttons"></div>
           <controlDivider></controlDivider>
@@ -716,6 +698,18 @@
           var vid = document.getElementById("video");
           vid.defaultMuted = true;
 
+          peaksInstance.on("player_play", function (seek) {
+            vid.currentTime = peaksInstance.player.getCurrentTime();
+            vid.play();
+          });
+          peaksInstance.on("player_pause", function (seek) {
+            vid.currentTime = peaksInstance.player.getCurrentTime();
+            vid.pause();
+          });
+          peaksInstance.on("player_seek", function (seek) {
+            vid.currentTime = peaksInstance.player.getCurrentTime();
+          });
+
           vid.onplay = function () {
             peaksInstance.player.seek(vid.currentTime);
             peaksInstance.player.play();
@@ -734,21 +728,11 @@
         modal.style.display = "block";
       }
 
-      function addButtonPoint() {
-        document.getElementById("new-button-text-point").value = "";
-        // Get the modal
-        var modal = document.getElementById("myModalPoint");
-        modal.style.display = "block";
-      }
-
       // Get the modal
-      var modal = document.getElementById("myModal");
-      var modalPoint = document.getElementById("myModalPoint");
       var helpModal = document.getElementById("helpModal");
 
       // Get the <span> element that closes the modal
       var span = document.getElementsByClassName("close")[0];
-      var span2 = document.getElementsByClassName("close")[1];
 
       // When the user clicks on <span> (x), close the modal
       span.onclick = function () {
@@ -756,28 +740,17 @@
         modalPoint.style.display = "none";
         helpModal.style.display = "none";
       };
-      span2.onclick = function () {
-        modal.style.display = "none";
-        modalPoint.style.display = "none";
-        helpModal.style.display = "none";
-      };
       // When the user clicks anywhere outside of the modal, close it
       window.onclick = function (event) {
-        if (event.target == modal) {
-          modal.style.display = "none";
-        }
-        if (event.target == modalPoint) {
-          modalPoint.style.display = "none";
-        }
         if (event.target == helpModal) {
           helpModal.style.display = "none";
         }
       };
 
       // Submit Point button
-      function submitButtonPoint(type) {
+      function submitPoint(type) {
         console.log(type);
-        labelText = document.getElementById("point-label").value;
+        labelText = document.getElementById(`label${type ? "1" : "2"}`).value;
         window.peakVars.peaksInstance.points.add({
           time: window.peakVars.peaksInstance.player.getCurrentTime(),
           labelText: labelText,
