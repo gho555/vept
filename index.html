@@ -769,11 +769,13 @@
       });
 
       function changeWatched() {
-        if (document.getElementById("watched").value == "no")
+        if (document.getElementById("watched").value == "no") {
           document
             .getElementById("watched-time-container")
             .setAttribute("style", "display: block");
-        else
+          document.getElementById("watched-time").value =
+            window.peakVars.peaksInstance.player.getCurrentTime();
+        } else
           document
             .getElementById("watched-time-container")
             .setAttribute("style", "display: none");
