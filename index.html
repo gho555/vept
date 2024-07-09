@@ -263,11 +263,6 @@
         border-radius: 4px;
         opacity: 95%;
       }
-
-      #watched-time-container {
-        margin: 8px 0;
-        display: none;
-      }
     </style>
   </head>
   <body>
@@ -444,14 +439,9 @@
             <option value="yes">Yes</option>
             <option value="no">No</option>
           </select>
-          <div id="watched-time-container">
+          <div id="watched-time-container" style="display: none">
             <label for="watched-time">Watched time</label>
-            <input
-              type="text"
-              id="watched-time"
-              value="0.0"
-              style="width: 5em"
-            />
+            <input type="text" id="watched-time" style="width: 5em" />
           </div>
           <controlDivider></controlDivider>
           <button class="button-30" data-action="log-data">Log points</button>
