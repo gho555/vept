@@ -401,8 +401,8 @@
       </div>
       <div class="sidenav">
         <div id="controls">
-          <label class="button-30" for="label1">Label</label>
-          <select name="label1" id="label1">
+          <label class="button-30" for="point-label">Label</label>
+          <select name="point-label" id="point-label">
             <option value="Suspect escalation">Suspect escalation</option>
             <option value="Officer escalation">Officer escalation</option>
             <option value="Suspect deescalation">Suspect deescalation</option>
@@ -412,16 +412,9 @@
             <option value="Arrest made">Arrest made</option>
           </select>
           <br />
-          <button class="button-30 topbutton" onclick="submitPoint(true)">
+          <button class="button-30 topbutton" onclick="submitPoint()">
             Add point
           </button>
-          <controlDivider></controlDivider>
-          <label class="button-30" for="label2">Label</label>
-          <input type="text" id="label2" value="" />
-          <button class="button-30 topbutton" onclick="submitPoint(false)">
-            Add point manually
-          </button>
-          <div id="point-buttons"></div>
           <controlDivider></controlDivider>
           <button class="button-30" data-action="zoom-in">Zoom in</button>
           <button class="button-30" data-action="zoom-out">Zoom out</button>
@@ -434,7 +427,7 @@
           <button class="button-30" data-action="seek">Seek to seconds</button>
           <input type="text" id="seek-time" value="0.0" />
           <controlDivider></controlDivider>
-          <label for="watched">Did you watched full video?</label>
+          <label for="watched">Did you watch full video?</label>
           <select id="watched" onchange="changeWatched()">
             <option value="yes">Yes</option>
             <option value="no">No</option>
@@ -615,7 +608,7 @@
                 };
               });
               var blob = new Blob(
-                [JSON.stringify(toSave), "\n", JSON.stringify(toSavePoints)],
+                [JSON.stringify(toSavePoints)],
                 { type: "application/json" }
               );
               var saveAs = window.saveAs;
@@ -738,9 +731,8 @@
       };
 
       // Submit Point button
-      function submitPoint(type) {
-        console.log(type);
-        labelText = document.getElementById(`label${type ? "1" : "2"}`).value;
+      function submitPoint() {
+        labelText = document.getElementById(`point-label`).value;
         window.peakVars.peaksInstance.points.add({
           time: window.peakVars.peaksInstance.player.getCurrentTime(),
           labelText: labelText,
